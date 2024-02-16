@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pmsn2024/screens/dashboard_screen.dart';
 import 'package:pmsn2024/screens/login_screen.dart';
 import 'package:pmsn2024/screens/splash_screen.dart';
+import 'package:pmsn2024/settings/app_value_notifier.dart';
+import 'package:pmsn2024/settings/theme.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -9,14 +11,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes:{
-        '/': (context) => SplashScreen(),
-        '/dashboard': (context) => DashboardScreen(),
-        '/login': (context) => LoginScreen(),
-        
-      }, 
+    return ValueListenableBuilder(
+      valueListenable: AppValueNotifier.flagTheme,
+      builder: (context,value,child) {
+        return MaterialApp(
+          theme: value ?  ThemeApp.lightTheme(context) : ThemeApp.darkTheme(context),
+          initialRoute: '/',
+          routes:{
+            '/': (context) => SplashScreen(),
+            '/dashboard': (context) => DashboardScreen(),
+            '/login': (context) => LoginScreen(),
+            
+          }, 
+        );
+      }
     );
   }
 }
