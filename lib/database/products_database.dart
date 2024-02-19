@@ -47,5 +47,10 @@ class ProductsDatabase{
     var conexion=await database;
     return conexion.delete(tabla,where: 'id=?',whereArgs: [data]);
   }
-  //Future<ProductsModel> read(){}
+  Future<List<ProductsModel>> read(String tabla)  async{ 
+     var conexion= await database;
+     var products = await conexion.query(tabla);
+     return products.map((e) => ProductsModel.fromMap(e)).toList();
+  }
+
 }

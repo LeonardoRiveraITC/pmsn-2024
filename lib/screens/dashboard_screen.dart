@@ -33,6 +33,14 @@ class DashboardScreen extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.pop(context);},
               ),
+            ListTile(leading:Icon(Icons.phone),
+              title: Text('Mi despensa'),
+              subtitle: Text('despensa'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.pushNamed(context, '/despensa');
+              },
+              ),              
               DayNightSwitch(
                 value: AppValueNotifier.flagTheme.value, 
                 onChanged: 
