@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pmsn2024/screens/challenge.dart';
 import 'package:pmsn2024/screens/dashboard_screen.dart';
 import 'package:pmsn2024/screens/login_screen.dart';
 import 'package:pmsn2024/screens/splash_screen.dart';
 import 'package:pmsn2024/settings/app_value_notifier.dart';
 import 'package:pmsn2024/settings/theme.dart';
+import 'package:pmsn2024/screens/challenge.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
             '/': (context) => SplashScreen(),
             '/dashboard': (context) => DashboardScreen(),
             '/login': (context) => LoginScreen(),
+            '/challenge': (context) => HomePageShoes()
             
           }, 
         );

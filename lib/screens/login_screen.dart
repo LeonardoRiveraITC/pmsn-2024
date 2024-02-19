@@ -35,11 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.center*0.9,
           children: [
              isLoading? Positioned(
-              top:200,
+              top:50,
               child: CircularProgressIndicator(color: Colors.white,) ):Container(),
             Image.asset('images/htb.png'),
             Positioned(
-              top: 600,
+              top: 300,
               height: 200,
               width: 300,
               child: Container(
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Positioned(
-              top: 900,
+              top: 600,
               height: 200,
               width: 300,
               child: Container(

@@ -21,6 +21,9 @@ class DashboardScreen extends StatelessWidget {
               title: Text('Practica'),
               subtitle: Text('subtite'),
               trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.pushNamed(context, '/challenge');
+              },
               ),
               ListTile(leading:Icon(Icons.close),
               title: Text('Salir'),

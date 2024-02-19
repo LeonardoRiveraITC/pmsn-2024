@@ -47,5 +47,5 @@ class ProductsDatabase{
     var conexion=await database;
     return conexion.delete(tabla,where: 'id=?',whereArgs: [data]);
   }
-  Future<ProductsModel> read(){}
+  //Future<ProductsModel> read(){}
 }
