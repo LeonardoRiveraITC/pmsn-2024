@@ -2,7 +2,7 @@ class ProductsModel{
   int? id;
   String? producto;
   int? cantidad;
-  DateTime? fechaCaducidad;
+  String? fechaCaducidad;
 
   ProductsModel({this.id,this.producto,this.cantidad,this.fechaCaducidad});
 

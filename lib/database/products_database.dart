@@ -27,7 +27,7 @@ class ProductsDatabase{
         id INTEGER PRIMARY KEY,
         producto VARCHAR(30),
         cantidad INT,
-        caducidad DATE
+        caducidad carchar(10)
       );
       ''';
       db.execute(query);
