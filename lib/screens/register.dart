@@ -145,12 +145,13 @@ _pickImagefromGallery() async {
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: (isImageSelected ? AssetImage('images/user.png') : AssetImage('images/user.png'))),
+                          image: (imageFile==null ? AssetImage('images/user.png')  : FileImage(imageFile!) as ImageProvider),
                     )),
               ),
             ),
+            ),
             Positioned(
-              top: 300,
+              top: 300, 
               height: 250,
               width: 300,
               child: Opacity(

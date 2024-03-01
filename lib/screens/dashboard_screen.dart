@@ -48,7 +48,15 @@ class DashboardScreen extends StatelessWidget {
               onTap: (){
                 Navigator.pushNamed(context, '/register');
               },
-              ),                            
+              ),    
+            ListTile(leading:Icon(Icons.phone),
+              title: Text('Practica 3'),
+              subtitle: Text('Practica 3'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.pushNamed(context, '/prac3');
+              },
+              ),                                          
               DayNightSwitch(
                 value: AppValueNotifier.flagTheme.value, 
                 onChanged: 

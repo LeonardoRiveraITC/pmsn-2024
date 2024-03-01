@@ -3,6 +3,7 @@ import 'package:pmsn2024/screens/challenge.dart';
 import 'package:pmsn2024/screens/dashboard_screen.dart';
 import 'package:pmsn2024/screens/despensapp_screen.dart';
 import 'package:pmsn2024/screens/login_screen.dart';
+import 'package:pmsn2024/screens/practica_t_screen.dart';
 import 'package:pmsn2024/screens/register.dart';
 import 'package:pmsn2024/screens/splash_screen.dart';
 import 'package:pmsn2024/settings/app_value_notifier.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
             '/challenge': (context) => HomePageShoes(),
             '/despensa':(context) => DespensaScreen(),
             '/register':(context) => RegisterScreen(),
+            '/prac3':(context) => practicaTScreen(),
           }, 
         );
       }
