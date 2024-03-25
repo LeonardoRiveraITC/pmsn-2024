@@ -1,15 +1,34 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pmsn2024/screens/challenge.dart';
 import 'package:pmsn2024/screens/dashboard_screen.dart';
 import 'package:pmsn2024/screens/despensapp_screen.dart';
+import 'package:pmsn2024/screens/detail_movie_screen.dart';
 import 'package:pmsn2024/screens/login_screen.dart';
+import 'package:pmsn2024/screens/popular_movies_screen.dart';
 import 'package:pmsn2024/screens/practica_t_screen.dart';
+import 'package:pmsn2024/screens/products_firebase_screen.dart';
 import 'package:pmsn2024/screens/register.dart';
 import 'package:pmsn2024/screens/splash_screen.dart';
 import 'package:pmsn2024/settings/app_value_notifier.dart';
 import 'package:pmsn2024/settings/theme.dart';
 import 'package:pmsn2024/screens/challenge.dart';
-void main() => runApp(MyApp());
+import 'package:firebase_auth/firebase_auth.dart';
+
+void main() async{
+WidgetsFlutterBinding.ensureInitialized(); 
+await Firebase.initializeApp(
+  options: const FirebaseOptions(
+      apiKey:
+          "AIzaSyC2fHhD0Tu6Cc-RXmlcIIVS3lvUYRdAbjE", // paste your api key here
+      appId:
+          "com.andb.pmsn2024", //paste your app id here
+      messagingSenderId: "240406044412", //paste your messagingSenderId here
+      projectId: "test-467c5", //paste your project id here
+    ),
+);
+runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -30,6 +49,10 @@ class MyApp extends StatelessWidget {
             '/despensa':(context) => DespensaScreen(),
             '/register':(context) => RegisterScreen(),
             '/prac3':(context) => practicaTScreen(),
+            "/movies":(context) => popularMoviesScreen(),
+            "/detail":(context) => DetailMovieScreen(),
+            "/fbScreen":(context) => ProductsFirebaseScreen()
+
           }, 
         );
       }

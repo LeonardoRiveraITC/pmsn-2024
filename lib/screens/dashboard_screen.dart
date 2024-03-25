@@ -56,7 +56,23 @@ class DashboardScreen extends StatelessWidget {
               onTap: (){
                 Navigator.pushNamed(context, '/prac3');
               },
-              ),                                          
+              ),
+            ListTile(leading:Icon(Icons.phone),
+              title: Text('PEliculas'),
+              subtitle: Text('PEliculas'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.pushNamed(context, '/movies');
+              },
+              ), 
+            ListTile(leading:Icon(Icons.phone),
+              title: Text('fireb'),
+              subtitle: Text('fireb'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.pushNamed(context, '/fbScreen');
+              },
+              ),                                                                      
               DayNightSwitch(
                 value: AppValueNotifier.flagTheme.value, 
                 onChanged: 

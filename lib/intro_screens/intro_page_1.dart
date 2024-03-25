@@ -17,7 +17,7 @@ class IntroPage1 extends StatelessWidget {
               direction: FlipDirection.HORIZONTAL, // default
               side: CardSide.FRONT, // The side to initially display.
               front: Container(
-                child:             Lottie.network(
+                child: Lottie.network(
                 "https://lottie.host/3906c28d-66e6-4a9c-b5fe-42b615cb9831/JCOQdxTTJ8.json"),
               ),
               back: Container(

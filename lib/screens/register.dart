@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pmsn2024/screens/dashboard_screen.dart';
+import 'package:pmsn2024/services/email_auth_firebase.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -14,52 +16,23 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
-  final txtUser = TextFormField(
-    keyboardType: TextInputType.name,
-    decoration: const InputDecoration(
-    border: OutlineInputBorder(), labelText: "Usuario"),
-    validator: (value) {
-      var userRegex = RegExp(r'^([A-Za-z0-9]*)$');
+  final auth_firebase = EmailAuthFirebase();
+  TextEditingController conUser = TextEditingController();
+  TextEditingController conPwd = TextEditingController();
+  TextEditingController conEmail = TextEditingController();
 
-      if (value == null || value.isEmpty) {
-        return 'El usuario no puede ser  vacio';
-      }
-      if (!userRegex.hasMatch(value)) {
-        return "Solo valores alfanumericos";
-      }
-
-      return null;
-    },
-  );
-  final txtEmail = TextFormField(
-    keyboardType: TextInputType.emailAddress,
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(), labelText: "Correo"),
-    validator: (value) {
-      var emailRegex = RegExp(
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-
-      if (value == null || value.isEmpty) {
-        return 'El email no puede ser  vacio';
-      }
-      if (!emailRegex.hasMatch(value)) {
-        return 'Email incorrecto';
-      }
-      return null;
-    },
-  );
   bool isImageSelected = false;
   File? imageFile;
-    
 
-_pickImagefromGallery() async {
+  _pickImagefromGallery() async {
     try {
-    // getting a directory path for saving
-   // final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
-   // print(appDocumentsDir.path);
-    // copy the file to a new path
-    //final File newImage = await image.copy('$path/image1.png');      
-      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // getting a directory path for saving
+      // final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+      // print(appDocumentsDir.path);
+      // copy the file to a new path
+      //final File newImage = await image.copy('$path/image1.png');
+      final pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedImage != null) {
         setState(() {
           imageFile = File(pickedImage.path);
@@ -73,7 +46,7 @@ _pickImagefromGallery() async {
     }
   }
 
-   _pickImagefromCamera() async {
+  _pickImagefromCamera() async {
     //final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
     //print(appDocumentsDir.path);
     try {
@@ -92,18 +65,6 @@ _pickImagefromGallery() async {
     }
   }
 
-  final pwdUser = TextFormField(
-    keyboardType: TextInputType.text,
-    obscureText: true,
-    decoration: const InputDecoration(
-        border: OutlineInputBorder(), labelText: "Contraseña usuario"),
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return 'La contraseña no puede ser vacia';
-      }
-      return null;
-    },
-  );
   final _validation = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -130,28 +91,38 @@ _pickImagefromGallery() async {
               top: 5,
               child: GestureDetector(
                 onTap: () {
-                  showModalBottomSheet(context: context, builder: (context){
-                    return ListView(children: [
-                      ElevatedButton(onPressed: _pickImagefromGallery, child: Text("galeria")),
-                      ElevatedButton(onPressed: _pickImagefromCamera, child: Text("camara"))                      
-                    ],);
-                  });
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ListView(
+                          children: [
+                            ElevatedButton(
+                                onPressed: _pickImagefromGallery,
+                                child: Text("galeria")),
+                            ElevatedButton(
+                                onPressed: _pickImagefromCamera,
+                                child: Text("camara"))
+                          ],
+                        );
+                      });
                 },
                 child: Container(
-                    height: 300,
-                    padding: EdgeInsets.all(10.0),
-                    width: MediaQuery.of(context).size.width * .70,
-                    decoration: BoxDecoration(
+                  height: 300,
+                  padding: EdgeInsets.all(10.0),
+                  width: MediaQuery.of(context).size.width * .70,
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: (imageFile==null ? AssetImage('images/user.png')  : FileImage(imageFile!) as ImageProvider),
-                    )),
+                        fit: BoxFit.cover,
+                        image: (imageFile == null
+                            ? AssetImage('images/user.png')
+                            : FileImage(imageFile!) as ImageProvider),
+                      )),
+                ),
               ),
             ),
-            ),
             Positioned(
-              top: 300, 
+              top: 300,
               height: 250,
               width: 300,
               child: Opacity(
@@ -165,11 +136,58 @@ _pickImagefromGallery() async {
                     Form(
                         key: _validation,
                         child: Column(children: [
-                          txtEmail,
-                          SizedBox(height: 10),
-                          txtUser,
-                          SizedBox(height: 10),
-                          pwdUser
+                          TextFormField(
+                            controller: conUser,
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Usuario"),
+                            validator: (value) {
+                              var userRegex = RegExp(r'^([A-Za-z0-9]*)$');
+
+                              if (value == null || value.isEmpty) {
+                                return 'El usuario no puede ser  vacio';
+                              }
+                              if (!userRegex.hasMatch(value)) {
+                                return "Solo valores alfanumericos";
+                              }
+
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: conEmail,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Correo"),
+                            validator: (value) {
+                              var emailRegex = RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+                              if (value == null || value.isEmpty) {
+                                return 'El email no puede ser  vacio';
+                              }
+                              if (!emailRegex.hasMatch(value)) {
+                                return 'Email incorrecto';
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: conPwd,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Contraseña usuario"),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'La contraseña no puede ser vacia';
+                              }
+                              return null;
+                            },
+                          ),
                         ]))
                   ]),
                 ),
@@ -192,6 +210,7 @@ _pickImagefromGallery() async {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Bienvenido')),
                           );
+                          auth_firebase.signUpUser(name: conUser.text, password: conPwd.text, email: conEmail.text);
                         }
                       });
                     },
